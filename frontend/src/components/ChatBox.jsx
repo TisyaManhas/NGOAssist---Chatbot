@@ -7,6 +7,17 @@ const ChatBox = () => {
     { message: "Hello! How can I help you?", sender: "bot" },
   ]);
   useEffect(() => {
+    const generateUID = () => {
+      const response = fetch("http://localhost:5000/user/create");
+      response.then((res) => {
+        res.json().then((data) => {
+          uID = data.userID;
+        });
+      });
+    };
+    generateUID();
+  }, []);
+  useEffect(() => {
     const scrollToBottom = () => {
       const messagesDiv = document.getElementById("messages");
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -21,7 +32,7 @@ const ChatBox = () => {
     const data = { text: message, uID };
     inputRef.current.value = "";
     setMessages([...messages, { message, sender: "user" }]);
-    const response = await fetch("http://localhost:5000/chat", {
+    const response = await fetch("http://localhost:5000/chatbot/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +49,7 @@ const ChatBox = () => {
   };
 
   return (
-    <div className="w-full h-screen items-center flex justify-center manrope">
+    
       <div className="md:w-96 min-h-80  shadow-2xl rounded-3xl border-black border-2 overflow-hidden flex flex-col justify-between items-center">
         <div className="w-full h-full">
           <div className="w-full border-black border-b-2 p-2 bg-pink-600">
@@ -83,7 +94,7 @@ const ChatBox = () => {
           </button>
         </div>
       </div>
-    </div>
+    
   );
 };
 

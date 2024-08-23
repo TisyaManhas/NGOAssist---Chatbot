@@ -43,9 +43,9 @@ async function generateContent(text) {
   return resultText;
 }
 
-async function generateChat(text) {
+async function generateChat(uid,text) {
   console.log("model1", text);
-  const result = await chat.sendMessage(text);
+  const result = await chat.sendMessage(`user:${uid} asks ${text}`);
   const response = result.response;
   let resultText = response.text();
   console.log("response model1:" + resultText);
