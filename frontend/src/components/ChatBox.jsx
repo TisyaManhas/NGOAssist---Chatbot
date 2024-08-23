@@ -7,9 +7,11 @@ const ChatBox = () => {
   const [uID, setUID] = useState("");
   const [userInfo, setUserInfo] = useState({});
 
-  const [messages, setMessages] = useState([
-    { message: "Hello! How can I help you?", sender: "bot" },
-  ]);
+  const [messages, setMessages] = useState(
+    JSON.parse(localStorage.getItem("messages")) || [
+      { message: "Hi, I am a bot. How can I help you?", sender: "bot" },
+    ]
+  );
   const [showForm, setShowForm] = useState(false);
   useEffect(() => {
     const generateUID = async () => {
@@ -34,7 +36,6 @@ const ChatBox = () => {
         { message: "Please Enter your Email", sender: "bot" },
       ]);
     } else if (showForm === 3) {
-      setMessages([...messages, { message: userInfo.email, sender: "user" }]);
       const ticketForm = async () => {
         const data = { user: uID, name: userInfo.name, email: userInfo.email };
         const response = await fetch("http://localhost:5000/chatbot/ticket", {
@@ -48,12 +49,17 @@ const ChatBox = () => {
         console.log(responseData);
         setMessages([
           ...messages,
+          { message: userInfo.email, sender: "user" },
           { message: "Ticket Created Successfully", sender: "bot" },
         ]);
       };
       ticketForm();
     }
   }, [showForm]);
+  useEffect(() => {
+    localStorage.setItem("messages", JSON.stringify(messages));
+  }, [messages]);
+
   useEffect(() => {
     const scrollToBottom = () => {
       const messagesDiv = document.getElementById("messages");
