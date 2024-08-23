@@ -72,7 +72,7 @@ const ChatBox = () => {
         <div className="w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600 ">
           <input
             ref={inputRef}
-            className="w-[80%] rounded-xl  p-2"
+            className="w-[80%] rounded-xl border-[#EEF0FF] bg-[#EEF0FF] p-2"
             placeholder="Enter your query"
           ></input>
           <button
