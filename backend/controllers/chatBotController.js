@@ -9,24 +9,25 @@ const chatController = {
       throw new Error("Please all fields are required");
     }
 
-    console.log(user);
-
+    req.user
     const chatCreated = await Chat.create({
-      user: user,
+      user: req.user,
       chat: [
         {
           query: question,
-          response: "",
+          response: ,
         },
       ],
     });
+
+
 
     res.json({
       chatCreated,
     });
   }),
 
-  askAgain : asyncHandler()
+  
 };
 
 module.exports = chatController;
