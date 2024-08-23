@@ -23,13 +23,15 @@ function App() {
   }, []);
   return (
     <div className="w-full h-screen items-center flex justify-center manrope">
+      
+      <img className="absolute top-0" src="/frontend-demo.jpg"></img>
       <div onClick={(e) => e.stopPropagation()}>
         {chatBoxOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            className="absolute bottom-20 right-20"
+            className="sm:absolute bottom-20 right-20"
           >
             <ChatBox />
           </motion.div>

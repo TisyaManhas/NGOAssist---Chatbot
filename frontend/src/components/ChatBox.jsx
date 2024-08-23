@@ -124,12 +124,6 @@ const ChatBox = () => {
   return (
     <div className="md:w-96 min-h-80  shadow-2xl rounded-3xl border-black border-2 overflow-hidden flex flex-col justify-between items-center">
       <div className="w-full h-full">
-        {/* <div className="w-full border-black border-b-2 p-2 bg-pink-600">
-            <div className="flex direction-row-reverse w-full h-full gap-80">Bot
-            <Minus size={32} />
-            <X size={32} />
-            </div>
-          </div> */}
         <div className="w-full border-black border-b-2 p-2 bg-pink-600">
           <div className="flex justify-between items-center w-full h-full font-semibold text-white text-xl">
             <span>Katalyst ChatBot</span>
