@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
-const Chat = require("../model/Chatbot");
+const { Chat } = require("../model/Chatbot");
 const { generateChat } = require("./gemini");
+const User = require("../model/User");
 
 const chatController = {
   getQuestion: asyncHandler(async (req, res) => {
@@ -12,23 +13,22 @@ const chatController = {
     console.log(user);
     let response = "";
     try {
-      response = await generateChat(question);
+      response = await generateChat(user, question);
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          message: error.message,
-          response: "error generating response",
-        });
+      res.status(500).json({
+        message: error.message,
+        response: "error generating response",
+        responseCreated: response,
+      });
     }
     res.json({
       response,
     });
     try {
-      const doesUserExist = await Chat.findOne({ user: user });
+      const doesUserExist = await User.findOne({ user: user });
       if (doesUserExist) {
-        const chat = await Chat.findOne({ user: user });
+        const chat = await Chat.findOne({ user: User._id });
         chat.chat.push({
           query: question,
           response: response,

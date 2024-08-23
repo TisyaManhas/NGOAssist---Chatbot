@@ -29,7 +29,6 @@ const TicketForm = () => {
     name = "body"
     placeholder="Enter Priority"
     className="form-control content" id="Content"/>
-
   </div>
     
   </div>
