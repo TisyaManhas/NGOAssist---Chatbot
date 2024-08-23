@@ -69,8 +69,7 @@ const ChatBox = () => {
           ></input>
           <button
             className="w-[15%] h-[80%] bg-pink-600 rounded-xl text-white"
-            onClick={sendMessage}
-          >
+            onClick={sendMessage}          >
             Send
           </button>
         </div>
