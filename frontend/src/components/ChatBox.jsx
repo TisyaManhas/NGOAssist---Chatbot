@@ -15,6 +15,7 @@ const ChatBox = () => {
         });
       });
     };
+    
     generateUID();
   }, []);
   useEffect(() => {
@@ -24,6 +25,9 @@ const ChatBox = () => {
     };
     scrollToBottom();
   }, [messages]);
+ 
+  
+
   const sendMessage = async () => {
     const message = inputRef.current.value;
     if (message === "") {
@@ -47,6 +51,18 @@ const ChatBox = () => {
       { message: responseData.response, sender: "bot" },
     ]);
   };
+
+  useEffect(()=>{
+    document.getElementById('inp').addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+          // Cancel the default action, if needed
+          event.preventDefault();
+          // Trigger the button element with a click
+          document.getElementById("btn").click();
+        }
+      });
+  },[])
 
   return (
     
@@ -84,11 +100,14 @@ const ChatBox = () => {
         </div>
         <div className="w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600 ">
           <input
+            id="inp"
             ref={inputRef}
             className="w-[80%] rounded-xl border-[#EEF0FF] bg-[#EEF0FF] p-2"
             placeholder="Enter your query"
+            
           ></input>
           <button
+            id="btn"
             className=" flex items-center justify-center bg-pink-400 rounded-xl"
             onClick={sendMessage}
           >
