@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const chatbotRouter = require("./routes/chatbotRoute");
+const {chatbotRouter,ticketController} = require("./routes/chatbotRoute");
 const userRouter = require("./routes/userRoute");
 
 dotenv.config();
@@ -26,6 +26,7 @@ mongoose
 
 app.use("/", chatbotRouter);
 app.use("/" , userRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

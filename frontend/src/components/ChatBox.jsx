@@ -137,9 +137,13 @@ import { useEffect, useRef, useState } from "react";
 import { Send, X, Minus } from "lucide-react";
 import Home from '../components/Home/Home';
 
+import Loader from "./Loader";
+
 const ChatBox = () => {
   const inputRef = useRef();
-  let uID = "";
+  const [uID, setUID] = useState("");
+  const [userInfo, setUserInfo] = useState({});
+
   const [messages, setMessages] = useState([
     { message: "Hello! How can I help you?", sender: "bot" },
   ]);
@@ -160,6 +164,39 @@ const ChatBox = () => {
   }, []);
 
   useEffect(() => {
+    if (showForm === 1) {
+      setMessages([
+        ...messages,
+        { message: "Please Enter your Name", sender: "bot" },
+      ]);
+    } else if (showForm === 2) {
+      setMessages([
+        ...messages,
+        { message: userInfo.name, sender: "user" },
+        { message: "Please Enter your Email", sender: "bot" },
+      ]);
+    } else if (showForm === 3) {
+      setMessages([...messages, { message: userInfo.email, sender: "user" }]);
+      const ticketForm = async () => {
+        const data = { user: uID, name: userInfo.name, email: userInfo.email };
+        const response = await fetch("http://localhost:5000/chatbot/ticket", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        setMessages([
+          ...messages,
+          { message: "Ticket Created Successfully", sender: "bot" },
+        ]);
+      };
+      ticketForm();
+    }
+  }, [showForm]);
+  useEffect(() => {
     if (!isMinimized) {
       const scrollToBottom = () => {
         const messagesDiv = document.getElementById("messages");
@@ -171,11 +208,21 @@ const ChatBox = () => {
 
   const sendMessage = async () => {
     const message = inputRef.current.value;
+    inputRef.current.value = "";
     if (message === "") {
       return;
     }
-    const data = { text: message, uID };
-    inputRef.current.value = "";
+    if (showForm === 1) {
+      setUserInfo({ name: message });
+      setShowForm(2);
+      return;
+    } else if (showForm === 2) {
+      setUserInfo({ ...userInfo, email: message });
+      setShowForm(3);
+      return;
+    }
+    const data = { question: message, user: uID };
+
     setMessages([...messages, { message, sender: "user" }]);
     const response = await fetch("http://localhost:5000/chatbot/chat", {
       method: "POST",
@@ -185,12 +232,17 @@ const ChatBox = () => {
       body: JSON.stringify(data),
     });
     const responseData = await response.json();
-
-    setMessages([
-      ...messages,
-      { message, sender: "user" },
-      { message: responseData.response, sender: "bot" },
-    ]);
+    console.log(responseData);
+    if (responseData.response[0] == "1") {
+      console.log("here");
+      setShowForm(1);
+    } else {
+      setMessages([
+        ...messages,
+        { message, sender: "user" },
+        { message: responseData.response, sender: "bot" },
+      ]);
+    }
   };
 
   useEffect(() => {
@@ -259,23 +311,34 @@ const ChatBox = () => {
           </div>
         )}
       </div>
-      {!isMinimized && (
-        <div className="w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600">
-          <input
-            id="inp"
-            ref={inputRef}
-            className="w-[80%] rounded-xl border-[#EEF0FF] bg-[#EEF0FF] p-2"
-            placeholder="Enter your query"
-          />
-          <button
-            id="btn"
-            className="flex items-center justify-center bg-pink-400 rounded-xl"
-            onClick={sendMessage}
+      {messages[messages.length - 1].sender === "user" && (
+        <>
+          <div
+            className={`w-full flex gap-2 items-center p-2 ${"justify-start"}`}
           >
-            <Send className="m-2" />
-          </button>
-        </div>
+            <div
+              className={` p-2 min-w-16 max-w-60 ${"bg-gray-300 text-black rounded-tr-3xl rounded-b-3xl"} p-2`}
+            >
+              <Loader />
+            </div>
+          </div>
+        </>
       )}
+      <div className="w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600 ">
+        <input
+          id="inp"
+          ref={inputRef}
+          className="w-[80%] rounded-xl border-[#EEF0FF] bg-[#EEF0FF] p-2"
+          placeholder="Enter your query"
+        ></input>
+        <button
+          id="btn"
+          className=" flex items-center justify-center bg-pink-400 rounded-xl"
+          onClick={sendMessage}
+        >
+          <Send className="m-2" />
+        </button>
+      </div>
     </div>
   );
 };
