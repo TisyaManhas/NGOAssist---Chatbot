@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import ChatBox from "./components/ChatBox";
 import { motion } from "framer-motion";
+import { CircleHelp } from "lucide-react";
 
 function App() {
   const [chatBoxOpen, setChatBoxOpen] = useState(false);
@@ -43,7 +44,7 @@ function App() {
             }}
             className="absolute bottom-10 right-10 z-10 rounded-full bg-red-400 w-fit p-2"
           >
-            Chatbot
+           <CircleHelp size={32} />
           </motion.div>
         )}
       </div>
