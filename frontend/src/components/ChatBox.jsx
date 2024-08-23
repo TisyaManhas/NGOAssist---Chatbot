@@ -7,11 +7,13 @@ const ChatBox = () => {
             <div className="w-full border-black border-b-2 h-[13%] bg-pink-600  "></div>
             <div className="w-full h-[74%] bg-white"  ></div>
             <div className="w-full h-[13%] flex  items-center justify-between px-5 border-black border-t-2 bg-pink-600 " >
-                <input className="w-[80%] h-[70%] px-3 border-black border-2 rounded-xl text-sm md:text-lg " type="text" placeholder="type a message"  />
-                <button className="border-black ml-2 border-2 bg-white rounded-xl h-[70%] md:px-2 px-1 text-sm md:text-lg ">Send!</button>
+                <input className="w-[200%] h-[70%] px-3 border-black border-2 rounded-xl text-sm md:text-lg mx-10" type="text" placeholder="type a message"  />
+                {/* <button className="border-black ml-2 border-2 bg-white rounded-xl h-[70%] md:px-2 px-1 text-sm md:text-lg ">Send!</button> */}
+                <img src="./src/images/message.png" height="35" width="35" alt="Send"/>
             </div>
         </div>
     </div>
+
   )
 }
 
