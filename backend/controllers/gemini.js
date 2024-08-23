@@ -21,6 +21,9 @@ async function generateContent(text) {
   const response = await result.response;
   const text = response.text();
   return text;
+  
 }
+
+
 
 module.exports = { generateContent };
