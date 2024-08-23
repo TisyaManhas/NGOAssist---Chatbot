@@ -1,9 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { Chat } = require("../model/Chatbot");
 const { generateChat } = require("./gemini");
-const { Ticket } = require("../model/Ticket");
-const bcrypt = require("bcryptjs");
-
+const { Ticket } = require("../model/ticket");
+const encrypt = require("../helper/encrypt");
 const chatController = {
   getQuestion: asyncHandler(async (req, res) => {
     const { question, user } = req.body;
@@ -57,14 +56,13 @@ const chatController = {
     if (!user || !name || !email) {
       throw new Error("Please all fields are required");
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedEmail = await bcrypt.hash(email, salt);
+
     try {
       const chatRecords = await Chat.findOne({ user: user });
       const ticketCreated = await Ticket.create({
         user: user,
         name: name,
-        email: hashedEmail,
+        email: encrypt(email),
         ticket: chatRecords.chat,
       });
       ticketCreated.save();
