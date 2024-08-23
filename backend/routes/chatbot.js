@@ -8,10 +8,9 @@ router.post('/chat', async (req, res) => {
     const newChat = new Todo({
         title: req.body.question
     });
-
     try {
         const savedChat = await newChat.save();
-        res.json(savedChat);
+        res.status(201);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
