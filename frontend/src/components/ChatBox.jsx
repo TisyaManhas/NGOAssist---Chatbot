@@ -131,7 +131,7 @@ const ChatBox = () => {
             </div>
           </div> */}
         <div className="w-full border-black border-b-2 p-2 bg-pink-600">
-          <div className="flex justify-between items-center w-full h-full">
+          <div className="flex justify-between items-center w-full h-full font-semibold text-white text-xl">
             <span>Katalyst ChatBot</span>
             <div className="flex gap-2">
               {/* <Minus size={32} />
@@ -186,7 +186,7 @@ const ChatBox = () => {
         ></input>
         <button
           id="btn"
-          className=" flex items-center justify-center bg-pink-400 rounded-xl"
+          className="flex items-center justify-center bg-pink-400 rounded-full"
           onClick={sendMessage}
         >
           <Send className="m-2" />

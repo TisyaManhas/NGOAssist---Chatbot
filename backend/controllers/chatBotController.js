@@ -68,6 +68,10 @@ const chatController = {
         email: email,
         ticket: chatRecords.chat,
         summmary: await generateChat(user, `summarize ${stringedRecords}`),
+        priority: await generateChat(
+          user,
+          `priority from 1 to 5 for this ${stringedRecords}`
+        ),
       });
       ticketCreated.save();
 
