@@ -6,7 +6,7 @@ const ChatBox = () => {
   const inputRef = useRef();
   const [uID, setUID] = useState("");
   const [userInfo, setUserInfo] = useState({});
-
+ 
   const [messages, setMessages] = useState(
     JSON.parse(localStorage.getItem("messages")) || [
       { message: "Hi, I am a bot. How can I help you?", sender: "bot" },
