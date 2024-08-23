@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const chatSchema = new mongoose.Schema(
   {
     user: {
@@ -10,13 +11,11 @@ const chatSchema = new mongoose.Schema(
     chat: {
       type: [
         {
-          type: {
-            query: String,
-            response: String,
-          },
-          required: true,
+          query: String,
+          response: String,
         },
       ],
+      required: true,
     },
   },
   {
