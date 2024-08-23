@@ -6,12 +6,14 @@ import './App.css'
 // import Header from './components/header'
 
 import Home from './components/Home/Home'
+import TicketForm from './components/TicketForm'
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return <>
 
+    <TicketForm/>
     <Home/>
     {/* <ChatBox/> */}
   </>
