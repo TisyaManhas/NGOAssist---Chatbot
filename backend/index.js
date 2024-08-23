@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const chatbotRouter = require("./routes/chatbotRoute");
+const chatController = require("./controllers/chatBotController");
+const userRouter = require("./routes/userRoute");
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(
@@ -20,9 +23,10 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => {
-  res.send("Server is running");
-});
+
+
+app.use("/", chatbotRouter);
+app.use("/" , userRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
