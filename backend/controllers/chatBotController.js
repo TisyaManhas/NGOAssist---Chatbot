@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { Chat } = require("../model/Chatbot");
 const { generateChat } = require("./gemini");
-const { Ticket } = require("../model/ticket");
+const { Ticket } = require("../model/Ticket");
+const bcrypt = require("bcryptjs");
 
 const chatController = {
   getQuestion: asyncHandler(async (req, res) => {
@@ -48,7 +49,6 @@ const chatController = {
         chatCreated.save();
       }
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: error.message });
     }
   }),
@@ -57,21 +57,15 @@ const chatController = {
     if (!user || !name || !email) {
       throw new Error("Please all fields are required");
     }
+    const salt = await bcrypt.genSalt(10);
+    const hashedEmail = await bcrypt.hash(email, salt);
     try {
       const chatRecords = await Chat.findOne({ user: user });
-      const stringedRecords = chatRecords.chat.map((record) => {
-        return record.query + " " + record.response;
-      });
       const ticketCreated = await Ticket.create({
         user: user,
         name: name,
-        email: email,
+        email: hashedEmail,
         ticket: chatRecords.chat,
-        summmary: await generateChat(user, `summarize ${stringedRecords}`),
-        priority: await generateChat(
-          user,
-          `priority from 1 to 5 for this ${stringedRecords}`
-        ),
       });
       ticketCreated.save();
 
@@ -83,8 +77,8 @@ const chatController = {
         },
         body: JSON.stringify({
           sender: {
-            name: "Cauldron",
-            email: "support@cauldron.live",
+            name: "Team14",
+            email: "divyam.7379@gmail.com",
           },
           to: [
             {
