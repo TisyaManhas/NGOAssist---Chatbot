@@ -59,11 +59,15 @@ const chatController = {
     }
     try {
       const chatRecords = await Chat.findOne({ user: user });
+      const stringedRecords = chatRecords.chat.map((record) => {
+        return record.query + " " + record.response;
+      });
       const ticketCreated = await Ticket.create({
         user: user,
         name: name,
         email: email,
         ticket: chatRecords.chat,
+        summmary: await generateChat(user, `summarize ${stringedRecords}`),
       });
       ticketCreated.save();
 
