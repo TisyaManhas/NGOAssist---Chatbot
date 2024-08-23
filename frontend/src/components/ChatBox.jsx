@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { SendHorizonal, Send, X, Minus } from "lucide-react";
+
 const ChatBox = () => {
   const inputRef = useRef();
   const [uID, setUID] = useState("");
+  const [userInfo, setUserInfo] = useState({});
   const [messages, setMessages] = useState([
     { message: "Hello! How can I help you?", sender: "bot" },
   ]);
@@ -16,6 +18,44 @@ const ChatBox = () => {
 
     generateUID();
   }, []);
+
+  useEffect(() => {
+    if (showForm === 1) {
+      setMessages([
+        ...messages,
+        { message: "Please Enter your Name", sender: "bot" },
+      ]);
+    } else if (showForm === 2) {
+      setMessages([
+        ...messages,
+        {message: userInfo.name, sender: "user"},
+        { message: "Please Enter your Email", sender: "bot" },
+      ]);
+    } else if (showForm === 3) {
+      setMessages([
+        ...messages,
+        {message: userInfo.email, sender: "user"},
+        
+      ]);
+      const ticketForm = async () => {
+        const data = { user: uID, name: userInfo.name, email: userInfo.email };
+        const response = await fetch("http://localhost:5000/chatbot/ticket", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        setMessages([
+          ...messages,
+          { message: "Ticket Created Successfully", sender: "bot" },
+        ]);
+      };
+      ticketForm();
+    }
+  }, [showForm]);
   useEffect(() => {
     const scrollToBottom = () => {
       const messagesDiv = document.getElementById("messages");
@@ -26,11 +66,21 @@ const ChatBox = () => {
 
   const sendMessage = async () => {
     const message = inputRef.current.value;
+    inputRef.current.value = "";
     if (message === "") {
       return;
     }
-    const data = { question: message, user:uID };
-    inputRef.current.value = "";
+    if (showForm === 1) {
+      setUserInfo({ name: message });
+      setShowForm(2);
+      return;
+    } else if (showForm === 2) {
+      setUserInfo({ ...userInfo, email: message });
+      setShowForm(3);
+      return;
+    }
+    const data = { question: message, user: uID };
+
     setMessages([...messages, { message, sender: "user" }]);
     const response = await fetch("http://localhost:5000/chatbot/chat", {
       method: "POST",
@@ -40,8 +90,10 @@ const ChatBox = () => {
       body: JSON.stringify(data),
     });
     const responseData = await response.json();
-    if (responseData.response == "1\n") {
-      setShowForm(true);
+    console.log(responseData);
+    if (responseData.response[0] == "1") {
+      console.log("here");
+      setShowForm(1);
     } else {
       setMessages([
         ...messages,

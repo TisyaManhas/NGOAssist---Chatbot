@@ -14,7 +14,7 @@ const userController = {
     }
 
     res.json({
-      userID: userCreated.userId,
+      userID,
     });
   }),
 };
