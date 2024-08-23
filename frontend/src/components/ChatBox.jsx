@@ -42,7 +42,7 @@ const ChatBox = () => {
     <div className="w-full h-screen items-center flex justify-center">
       <div className="md:w-[45%] w-[70%] h-[70%] shadow-2xl rounded-3xl border-black border-2 overflow-hidden flex flex-col items-center">
         <div className="w-full border-black border-b-2 h-[13%] bg-pink-600  "></div>
-        <h2> Kat-Bot</h2>
+        
         <div className="w-full h-[74%] mt-2 flex  flex-col bg-white overflow-scroll overflow-x-hidden">
           {messages.map((msg, index) => (
             <div
