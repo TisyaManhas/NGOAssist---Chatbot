@@ -28,6 +28,3 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-
-// const todoRoutes = require('./routes/todos');
-// app.use('/api/todos', todoRoutes);
