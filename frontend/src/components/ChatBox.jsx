@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { SendHorizonal, Send, X, Minus } from "lucide-react";
+import {  Send, X, Minus } from "lucide-react";
 import Loader from "./Loader";
 
 const ChatBox = () => {
@@ -132,7 +132,7 @@ const ChatBox = () => {
           </div> */}
         <div className="w-full border-black border-b-2 p-2 bg-pink-600">
           <div className="flex justify-between items-center w-full h-full">
-            <span>Bot</span>
+            <span>Katalyst ChatBot</span>
             <div className="flex gap-2">
               {/* <Minus size={32} />
               <X size={32} /> */}
