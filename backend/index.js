@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 app.post("/chat", async (req, res) => {
   const { text } = req.body;
   const response = await generateChat(text);
-  res.send(response);
+  res.json({ response: response });
 });
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

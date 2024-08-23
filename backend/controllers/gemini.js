@@ -24,13 +24,13 @@ const chat = model.startChat({
 async function run() {
   const prompt = "Write a story about an AI and magic in 30 words";
   const result = await model.generateContent(prompt);
-  const response =  result.response;
+  const response = result.response;
   const text = response.text();
   console.log(text);
 }
 async function generateChatFromModel2(text) {
   const result = await chat2.sendMessage(text);
-  const response =  result.response;
+  const response = result.response;
   const resultText = response.text();
   return resultText;
 }
@@ -38,20 +38,19 @@ async function generateContent(text) {
   console.log(text);
   const result = await model.generateContent(text);
   console.log(result);
-  const response =  result.response;
+  const response = result.response;
   const resultText = response.text();
   return resultText;
 }
 
 async function generateChat(text) {
+  console.log("model1", text);
   const result = await chat.sendMessage(text);
-  const response =  result.response;
+  const response = result.response;
   let resultText = response.text();
-//   console.log("response model1:" + resultText);
+  console.log("response model1:" + resultText);
   if (resultText[0] === "0") {
-    // console.log("model2");
     resultText = await generateChatFromModel2(text);
-    // console.log(resultText);
   }
   return resultText;
 }
