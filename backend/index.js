@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const { generateContent, generateChat } = require("./controllers/gemini");
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
   })
 );
 
@@ -23,7 +24,11 @@ mongoose
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
-
+app.post("/chat", async (req, res) => {
+    const { text } = req.body;
+    const response = await generateChat(text);
+    res.send(response);
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
