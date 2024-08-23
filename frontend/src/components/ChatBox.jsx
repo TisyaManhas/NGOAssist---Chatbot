@@ -38,10 +38,10 @@ const ChatBox = () => {
 
   return (
     <div className="w-full h-screen items-center flex justify-center">
-      <div className="md:w-[45%] w-[70%] h-[70%] shadow-2xl rounded-3xl border-black border-2 overflow-hidden flex flex-col items-center">
-        <div className="w-full border-black border-b-2 h-[13%] bg-pink-600  "></div>
+      <div className="md:w-[45%] w-[70%] h-[70%] shadow-2xl rounded-3xl border-pink border-2 overflow-hidden flex flex-col items-center">
+        <div className="w-full h-[13%] bg-white-600  "></div>
         
-        <div className="w-full h-[74%] mt-2 flex  flex-col bg-white overflow-scroll overflow-x-hidden">
+        <div className="w-full h-[74%] flex  flex-col bg-[#EEF0FF] overflow-scroll overflow-x-hidden">
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -61,14 +61,14 @@ const ChatBox = () => {
             </div>
           ))}
         </div>
-        <div className="w-full h-[13%] flex  items-center justify-between px-5 border-black border-t-2 bg-pink-600 ">
+        <div className="w-full h-[13%] flex  items-center justify-between px-5  bg-white-600 ">
           <input
             ref={inputRef}
-            className="w-[80%] rounded-xl  p-2"
+            className="w-[80%] rounded-xl border-[#EEF0FF] bg-[#EEF0FF] p-2"
             placeholder="Enter your query"
           ></input>
           <button
-            className="w-[15%] h-[80%] bg-pink-400 rounded-xl"
+            className="w-[15%] h-[80%] bg-pink-600 rounded-xl text-white"
             onClick={sendMessage}
           >
             Send
