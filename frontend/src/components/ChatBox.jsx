@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { SendHorizonal, Send, X, Minus } from "lucide-react";
+import Loader from "./Loader";
 
 const ChatBox = () => {
   const inputRef = useRef();
   const [uID, setUID] = useState("");
   const [userInfo, setUserInfo] = useState({});
+
   const [messages, setMessages] = useState([
     { message: "Hello! How can I help you?", sender: "bot" },
   ]);
@@ -28,15 +30,11 @@ const ChatBox = () => {
     } else if (showForm === 2) {
       setMessages([
         ...messages,
-        {message: userInfo.name, sender: "user"},
+        { message: userInfo.name, sender: "user" },
         { message: "Please Enter your Email", sender: "bot" },
       ]);
     } else if (showForm === 3) {
-      setMessages([
-        ...messages,
-        {message: userInfo.email, sender: "user"},
-        
-      ]);
+      setMessages([...messages, { message: userInfo.email, sender: "user" }]);
       const ticketForm = async () => {
         const data = { user: uID, name: userInfo.name, email: userInfo.email };
         const response = await fetch("http://localhost:5000/chatbot/ticket", {
@@ -130,8 +128,8 @@ const ChatBox = () => {
           <div className="flex justify-between items-center w-full h-full">
             <span>Bot</span>
             <div className="flex gap-2">
-              <Minus size={32} />
-              <X size={32} />
+              {/* <Minus size={32} />
+              <X size={32} /> */}
             </div>
           </div>
         </div>
@@ -160,6 +158,19 @@ const ChatBox = () => {
           ))}
         </div>
       </div>
+      {messages[messages.length - 1].sender === "user" && (
+        <>
+          <div
+            className={`w-full flex gap-2 items-center p-2 ${"justify-start"}`}
+          >
+            <div
+              className={` p-2 min-w-16 max-w-60 ${"bg-gray-300 text-black rounded-tr-3xl rounded-b-3xl"} p-2`}
+            >
+              <Loader />
+            </div>
+          </div>
+        </>
+      )}
       <div className="w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600 ">
         <input
           id="inp"
