@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 const ChatBox = () => {
   const inputRef = useRef();
   let uID = "";
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { message: "Hello! How can I help you?", sender: "bot" },
+  ]);
   // useEffect(() => {
   //   const getUID = async () => {
   //     const response = await fetch("http://localhost:5000/generateUID");
