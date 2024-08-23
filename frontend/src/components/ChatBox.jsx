@@ -1,17 +1,29 @@
 import { useEffect, useRef, useState } from "react";
+import { SendHorizonal, Send } from "lucide-react";
 const ChatBox = () => {
   const inputRef = useRef();
   let uID = "";
-  const [messages, setMessages] = useState([]);
-  // useEffect(() => {
-  //   const getUID = async () => {
-  //     const response = await fetch("http://localhost:5000/generateUID");
-  //     const data = await response.json();
-  //     uID = data.uID;
-  //   };
-  //   getUID();
-  // }, []);
-
+  const [messages, setMessages] = useState([
+    { message: "Hello! How can I help you?", sender: "bot" },
+  ]);
+  useEffect(() => {
+    const generateUID = () => {
+      const response = fetch("http://localhost:5000/user/create");
+      response.then((res) => {
+        res.json().then((data) => {
+          uID = data.userID;
+        });
+      });
+    };
+    generateUID();
+  }, []);
+  useEffect(() => {
+    const scrollToBottom = () => {
+      const messagesDiv = document.getElementById("messages");
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    };
+    scrollToBottom();
+  }, [messages]);
   const sendMessage = async () => {
     const message = inputRef.current.value;
     if (message === "") {
@@ -20,7 +32,7 @@ const ChatBox = () => {
     const data = { text: message, uID };
     inputRef.current.value = "";
     setMessages([...messages, { message, sender: "user" }]);
-    const response = await fetch("http://localhost:5000/chat", {
+    const response = await fetch("http://localhost:5000/chatbot/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,45 +49,52 @@ const ChatBox = () => {
   };
 
   return (
-    <div className="w-full h-screen items-center flex justify-center">
-      <div className="md:w-[45%] w-[70%] h-[70%] shadow-2xl rounded-3xl border-pink border-2 overflow-hidden flex flex-col items-center">
-        <div className="w-full h-[13%] bg-white-600  "></div>
-        
-        <div className="w-full h-[74%] flex  flex-col bg-[#EEF0FF] overflow-scroll overflow-x-hidden">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`w-full  mb-2  flex gap-2 items-center px-5 ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
+    
+      <div className="md:w-96 min-h-80  shadow-2xl rounded-3xl border-black border-2 overflow-hidden flex flex-col justify-between items-center">
+        <div className="w-full h-full">
+          <div className="w-full border-black border-b-2 p-2 bg-pink-600">
+            <div className="flex gap-2">Bot</div>
+          </div>
+
+          <div
+            id="messages"
+            className=" mt-2 flex h-full scroll-smooth max-h-[500px] flex-col gap-2 bg-white overflow-scroll overflow-x-hidden"
+          >
+            {messages.map((msg, index) => (
               <div
-                className={` m-2 ${
-                  msg.sender === "user"
-                    ? "bg-pink-600 text-white rounded-tl-3xl rounded-b-3xl"
-                    : "bg-gray-300 text-black rounded-tr-3xl rounded-b-3xl"
-                } p-2`}
+                key={index}
+                className={`w-full    flex gap-2 items-center p-2 ${
+                  msg.sender === "user" ? "justify-end" : "justify-start"
+                }`}
               >
-                {msg.message}
+                <div
+                  className={` p-2 min-w-16 max-w-60 ${
+                    msg.sender === "user"
+                      ? "bg-pink-600 text-white rounded-tl-3xl rounded-b-3xl "
+                      : "bg-gray-300 text-black rounded-tr-3xl rounded-b-3xl"
+                  } p-2`}
+                >
+                  {msg.message}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-        <div className="w-full h-[13%] flex  items-center justify-between px-5  bg-white-600 ">
+        <div className="w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600 ">
           <input
             ref={inputRef}
             className="w-[80%] rounded-xl border-[#EEF0FF] bg-[#EEF0FF] p-2"
             placeholder="Enter your query"
           ></input>
           <button
-            className="w-[15%] h-[80%] bg-pink-600 rounded-xl text-white"
+            className=" flex items-center justify-center bg-pink-400 rounded-xl"
             onClick={sendMessage}
           >
-            Send
+            <Send className="m-2" />
           </button>
         </div>
       </div>
-    </div>
+    
   );
 };
 
