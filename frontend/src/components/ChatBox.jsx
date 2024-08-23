@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {  Send, X, Minus } from "lucide-react";
+import {  Send, } from "lucide-react";
 import Loader from "./Loader";
 
 const ChatBox = () => {
