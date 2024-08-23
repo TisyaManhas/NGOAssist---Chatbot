@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const Chat = require("../model/Chatbot");
+const { Chat } = require("../model/Chatbot");
 const { generateChat } = require("./gemini");
-const { response } = require("express");
 
 const chatController = {
   getQuestion: asyncHandler(async (req, res) => {
@@ -10,7 +9,21 @@ const chatController = {
     if (!question) {
       throw new Error("Please all fields are required");
     }
-    const response = await generateChat(user, question);
+    console.log(user);
+    let response = "";
+    try {
+      response = await generateChat(user, question);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: error.message,
+        response: "error generating response",
+        responseCreated: response,
+      });
+    }
+    res.json({
+      response,
+    });
     try {
       const doesUserExist = await Chat.findOne({ user: user });
       if (doesUserExist) {
