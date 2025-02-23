@@ -161,17 +161,16 @@ const ChatBox = () => {
       {messages[messages.length - 1].sender === "user" && (
         <>
           <div
-            className={`w-full flex gap-2 items-center p-2 ${"justify-start"}`}
+            className={`w-full flex gap-2 items-center p-2 justify-start`}
           >
             <div
-              className={` p-2 min-w-16 max-w-60 ${"bg-gray-300 text-black rounded-tr-3xl rounded-b-3xl"} p-2`}
-            >
+              className={"p-2 min-w-16 max-w-60 bg-gray-300 text-black rounded-tr-3xl p-2"} >
               <Loader />
             </div>
           </div>
         </>
       )}
-      <div className="w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600 ">
+      <div className={"w-full flex p-2 items-center justify-between px-3 border-black border-t-2 bg-pink-600 "}>
         <input
           id="inp"
           ref={inputRef}

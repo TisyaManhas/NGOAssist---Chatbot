@@ -2,11 +2,12 @@ const asyncHandler = require("express-async-handler");
 const { Chat } = require("../model/Chatbot");
 const { generateChat } = require("./gemini");
 const { Ticket } = require("../model/ticket");
-const encrypt = require("../helper/encrypt");
+// const encrypt = require("../helper/encrypt");
 // const encrypt = require("../helper/encrypt");
 const chatController = {
   getQuestion: asyncHandler(async (req, res) => {
     const { question, user } = req.body;
+    console.log(req.body)
 
     if (!question) {
       throw new Error("Please all fields are required");
@@ -23,9 +24,7 @@ const chatController = {
         responseCreated: Answer,
       });
     }
-    res.json({
-      response: Answer,
-    });
+    
     try {
       const doesUserExist = await Chat.findOne({ user: user });
       if (doesUserExist) {
@@ -48,6 +47,9 @@ const chatController = {
         });
         chatCreated.save();
       }
+      res.json({
+        response: Answer,
+      });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
