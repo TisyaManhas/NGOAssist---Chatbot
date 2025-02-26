@@ -115,10 +115,4 @@ improving efficiency and saving valuable time for NGO staff.
 
 ---
 
-💡 *Contributions are welcome!* Feel free to submit issues or pull requests to help improve Katalyst Chatbot.
-
-📧 For inquiries, contact *[Your Email]* or visit *[Your Website]*.
-
----
-
 🛠 *Developed with ❤ by Tisya Manhas
