@@ -21,11 +21,14 @@ improving efficiency and saving valuable time for NGO staff.
 ### Frontend:
 - React.js
 - Vite
+- Tailwind CSS
+- Bootstrap
 
 ### Backend:
 - Node.js
 - Express.js
 - MongoDB
+- Mongoose (MongoDB ODM)
 
 ### APIs:
 - Google Gemini API (AI responses)
